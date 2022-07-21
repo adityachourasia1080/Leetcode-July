@@ -54,3 +54,54 @@ public:
         
     }
 };
+M2_--IN SINGLE PASS
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    pair<ListNode*,ListNode*> reverse(ListNode * temp,int diff)
+    {
+        ListNode * prev=NULL, *curr=temp, * next=NULL;
+        diff++;
+        while(diff--)
+        {
+            next= curr->next;
+            curr->next= prev;
+            prev=curr;
+            curr=next;
+        }
+        return {prev,curr};
+    }
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        ListNode * prev=NULL, *curr=head,*next= NULL;
+        int diff= right-left,i=1;
+        if (diff==0)   return head;
+        
+        while(i<left)
+        {
+            prev=curr;
+            curr=curr->next;
+            i++;
+        }
+        
+        pair<ListNode*,ListNode*> p= reverse(curr,diff);
+        if (prev==NULL)
+        {
+            curr->next=p.second;
+            return p.first;
+        }
+        
+        prev->next=p.first;
+        curr->next=p.second;
+        return head;
+        
+    }
+};
